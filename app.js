@@ -30,7 +30,8 @@ function ficherazo(fichero){
 	$.getJSON(fichero, function (data) {
 
 		console.log(data.features.length);
-
+		
+		
 		$.each(data.features, function (key, val) {
 		    $.each(val.properties, function(name,valor){
 		    	console.log(valor);
