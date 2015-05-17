@@ -9,8 +9,14 @@
 
 	{
 	 	"type": "Feature",
-		"geometry": {"coordinates": [-120.7401386, 47.7510741]},
+		"geometry": {"coordinates": [-130.7401386, 47.7510741]},
 		"properties": {"name": "Madrid"}
+	},
+	
+	{
+	 	"type": "Feature",
+		"geometry": {"coordinates": [-140.7401386, 47.7510741]},
+		"properties": {"name": "Paris"}
 	}
 
 	]

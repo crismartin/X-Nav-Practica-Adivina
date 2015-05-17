@@ -5,36 +5,43 @@ function removeFotos() {
 
 
 function fotoSearch(etiqueta) {
-	removeFotos();
-
 	var flickerAPI = "http://api.flickr.com/services/feeds/photos_public.gne?jsoncallback=?";
 
-	$.getJSON( flickerAPI, {
+	var fotos = $.getJSON( flickerAPI, {
 		tags: etiqueta + ", capital, monument",
-		text: "madrid",
+		text: etiqueta,
 		format: "json"
-	}).done(function( data ) {
-	
-		//console.log(data.items);
-		//console.log(data.items.length);
-		num_aleat =  Math.floor((Math.random() * (data.items.length-1)) + 0);
-		
-		foto = data.items[num_aleat];
-		$( "<img>" ).attr( "src", foto.media.m ).appendTo( "#images" );
+	});
+
+	fotos.done(function(data) {		
+		var worker = new Worker("worker_fotos.js");
+		console.log(data.items);
+		data.items.length = 4;
+		worker.postMessage(data.items);	
+
+		worker.onmessage = function(event){
+			$("#imagenes").append(event.data);		
+			worker.terminate();
+		}
 	});
 };
 
 
+function pedirFichero(fichero){	
 
-function ficherazo(fichero){
-	$.getJSON(fichero, function (data) {
+	$.getJSON(fichero, function (data) {		
+		//console.log(data.features.length);
+		var worker = new Worker("worker_coords.js");
+		worker.postMessage(data.features);	
 
-		console.log(data.features.length);
-		
-		
-		$.each(data.features, function (key, val) {
-		    $.each(val.properties, function(name,valor){
-		    	console.log(valor);
+		worker.onmessage = function(event){
+			$("#coords").append(event.data);		
+			worker.terminate();
+		}
+	}).done(function(data){
+		$.each(data.features, function (key, val) {			
+		    $.each(val.properties, function(name,valor){		    	
+		    	console.log("valor: " + valor);
 		       	fotoSearch(valor);
 		    })              
 		});	
@@ -42,22 +49,8 @@ function ficherazo(fichero){
 }
 
 
-$(document).ready(function(){
-
-	var array = new Array();
-
-	var fichero = $.getJSON('/juegos/Capitale.json', function (data) {
-
-		console.log(data.features.length);
-
-		$.each(data.features, function (key, val) {
-		    $.each(val.properties, function(name,valor){
-		    	console.log(valor);
-		       	fotoSearch(valor);
-		    })              
-		});	
-	});
+$(document).ready(function(){	
+	pedirFichero("juegos/Capitales.json");	
 
 	$("#selectmenu").selectmenu(); 
-
 });
