@@ -17,5 +17,6 @@
 
 
 #imagenes, #coords{
+	display: none;
 	visibility: hidden;	
 }
