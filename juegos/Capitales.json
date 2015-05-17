@@ -1,60 +1,17 @@
 { "type": "FeatureCollection",
-    "features": [
+	"features": [
 
-      { "type": "Feature",
-        "geometry": {"type": "Point", "coordinates": [-120.7401386, 47.7510741]},
-        "properties": {"name": "Washington DC"}
-      },
+	{
+	 	"type": "Feature",
+		"geometry": {"coordinates": [-120.7401386, 47.7510741]},
+		"properties": {"name": "Washington DC"}
+	},
 
-      { "type": "Feature",
-        "geometry": {"type": "Point", "coordinates": [102.0, 0.5]},
-        "properties": {"name": "Madrid"}
-      },
+	{
+	 	"type": "Feature",
+		"geometry": {"coordinates": [-120.7401386, 47.7510741]},
+		"properties": {"name": "Madrid"}
+	}
 
-      { "type": "Feature",
-        "geometry": {"type": "Point", "coordinates": [102.0, 0.5]},
-        "properties": {"name": "Berlin"}
-      },
-
-      { "type": "Feature",
-        "geometry": {"type": "Point", "coordinates": [102.0, 0.5]},
-        "properties": {"name": "Londres"}
-      },
-
-      { "type": "Feature",
-        "geometry": {"type": "Point", "coordinates": [102.0, 0.5]},
-        "properties": {"name": "Lisboa"}
-      }
-
-      { "type": "Feature",
-        "geometry": {"type": "Point", "coordinates": [102.0, 0.5]},
-        "properties": {"name": "Ottawa"}
-      },
-
-      { "type": "Feature",
-        "geometry": {"type": "Point", "coordinates": [102.0, 0.5]},
-        "properties": {"name": "Tokyo"}
-      },
-
-      { "type": "Feature",
-        "geometry": {"type": "Point", "coordinates": [102.0, 0.5]},
-        "properties": {"name": "Moscú"}
-      },
-
-      { "type": "Feature",
-        "geometry": {"type": "Point", "coordinates": [102.0, 0.5]},
-        "properties": {"name": "Estocolmo"}
-      },
-
-      { "type": "Feature",
-        "geometry": {"type": "Point", "coordinates": [102.0, 0.5]},
-        "properties": {"name": "Abu Dabi"}
-      },
-
-      { "type": "Feature",
-        "geometry": {"type": "Point", "coordinates": [102.0, 0.5]},
-        "properties": {"name": "Pekin"}
-      }
-   ]
+	]
 }
-

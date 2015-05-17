@@ -1,0 +1,15 @@
+.demoHeaders {
+	margin-top: 2em;
+}
+
+#juegos_disp{
+	padding-left: 50px;
+	padding-right: 50px;
+	margin-left: 30px;
+	margin-right: 30px;
+}
+
+
+#selectmenu, #juegos_disp{
+	width: 450px;
+}
