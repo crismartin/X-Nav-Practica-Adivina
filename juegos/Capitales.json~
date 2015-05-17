@@ -3,19 +3,19 @@
 
 	{
 	 	"type": "Feature",
-		"geometry": {"coordinates": [-120.7401386, 47.7510741]},
+		"geometry": {"coordinates": [38.90719, -77.03687]},
 		"properties": {"name": "Washington DC"}
 	},
 
 	{
 	 	"type": "Feature",
-		"geometry": {"coordinates": [-120.7401386, 47.7510741]},
+		"geometry": {"coordinates": [40.41677, -3.70379]},
 		"properties": {"name": "Madrid"}
 	},
 	
 	{
 	 	"type": "Feature",
-		"geometry": {"coordinates": [-120.7401386, 47.7510741]},
+		"geometry": {"coordinates": [48.85661, 2.35222]},
 		"properties": {"name": "Paris"}
 	}
 
