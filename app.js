@@ -26,8 +26,8 @@ function fotoSearch(etiqueta) {
 
 
 
-function ficherazo(){
-	var fichero = $.getJSON('/juegos/Capitale.json', function (data) {
+function ficherazo(fichero){
+	$.getJSON(fichero, function (data) {
 
 		console.log(data.features.length);
 
