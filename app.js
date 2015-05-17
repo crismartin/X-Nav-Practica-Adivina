@@ -14,8 +14,7 @@ function fotoSearch(etiqueta) {
 	});
 
 	fotos.done(function(data) {		
-		var worker = new Worker("worker_fotos.js");
-		console.log(data.items);
+		var worker = new Worker("worker_fotos.js");		
 		data.items.length = 4;
 		worker.postMessage(data.items);	
 
@@ -40,8 +39,7 @@ function pedirFichero(fichero){
 		}
 	}).done(function(data){
 		$.each(data.features, function (key, val) {			
-		    $.each(val.properties, function(name,valor){		    	
-		    	console.log("valor: " + valor);
+		    $.each(val.properties, function(name,valor){	    	
 		       	fotoSearch(valor);
 		    })              
 		});	
