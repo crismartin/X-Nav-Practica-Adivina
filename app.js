@@ -47,10 +47,70 @@ function pedirFichero(fichero){
 }
 
 
-$(document).ready(function(){	
-	pedirFichero("juegos/Capitales.json");	
 
-	var map = L.map('map').setView([51.505, -0.09], 13);
+function calcDistancia(lat1, lon1, lat2, lon2) {
+	rad = function(x) {return x*Math.PI/180;}
+
+	var R     = 6378.137; //Radio de la tierra en km
+	var dLat  = rad( lat2 - lat1 );
+	var dLong = rad( lon2 - lon1 );
+
+	var a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.cos(rad(lat1)) * 
+			Math.cos(rad(lat2)) * Math.sin(dLong/2) * Math.sin(dLong/2);
+	var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+	var d = R * c;
+
+	// retorna 3 decimales
+	return d.toFixed(3);
+}
+
+
+// devuelve las coordenadas que estan en el index
+// despues de haberlas dejado allí mediante
+// la llamada asincrona del json
+function getCoors(id) {
+
+}
+
+
+
+function getDatos(fichero) {
+	var json = null;
+
+	json = $.ajax({
+	        'async': false,
+	        'global': false,
+	        'url': fichero,
+	        'dataType': "json",
+	        'success': function (data) {
+	        	json = data;
+	        }
+	    });
+
+	if(json.status === 404){
+		return null;
+	}else{
+		aux = json.responseJSON.features;
+		return aux;
+	}
+}
+
+
+function getFotos(array_sitios) {
+
+
+
+
+}
+
+
+
+$(document).ready(function(){
+
+	datos = getDatos("juegos/Capitales.json");
+	console.log(datos);
+
+	var map = L.map('map').setView([28.92163, -2.3125], 1);
 
 	L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
 		maxZoom: 18,
@@ -61,39 +121,22 @@ $(document).ready(function(){
 	}).addTo(map);
 
 
-    // Show lat and long at cliked (event) point, with a popup
-    var popup = L.popup();
+    // SMuestra un marcador donde se clicka en el mapa
+    var marker;
     function showPopUp(e) {
-	popup
-            .setLatLng(e.latlng)
-            .setContent("Coordinates: " + e.latlng.toString())
-            .openOn(map);
+    	if((typeof marker) !== "undefined"){
+    		map.removeLayer(marker);
+    	}
+    	marker = new L.marker(e.latlng, {draggable:true});
+    	map.addLayer(marker);
+    	marker.bindPopup("Has seleccionado este punto").openPopup();
     }
-    // Subscribe to the "click" event
+
+    // me suscribo al evento
     map.on('click', showPopUp);
 
-    // Show a circle around current location
-    function onLocationFound(e) {
-	var radius = e.accuracy / 2;
-	L.marker(e.latlng).addTo(map)
-            .bindPopup("You are within " + radius +
-		       " meters from this point<br/>" +
-		       "Coordinates: " + e.latlng.toString())
-	    .openPopup();
-	L.circle(e.latlng, radius).addTo(map);
-    }
-    // Subscribe to the "location found" event
-    map.on('locationfound', onLocationFound);
 
-    // Show alert if geolocation failed
-    function onLocationError(e) {
-	alert(e.message);
-    }
-    // Subscribe to the "location error" event
-    map.on('locationerror', onLocationError);
 
-    // Set the view to current location
-    map.locate({setView: true, maxZoom: 16});  
 
-	$("#selectmenu").selectmenu(); 
+
 });

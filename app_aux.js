@@ -70,4 +70,32 @@ $(document).ready(function(){
 
 	$("#selectmenu").selectmenu(); 
 
+   /*
+    // Show a circle around current location
+    function onLocationFound(e) {
+	var radius = e.accuracy / 2;
+	L.marker(e.latlng).addTo(map)
+            .bindPopup("You are within " + radius +
+		       " meters from this point<br/>" +
+		       "Coordinates: " + e.latlng.toString())
+	    .openPopup();
+	L.circle(e.latlng, radius).addTo(map);
+    }
+
+    /*
+    // Subscribe to the "location found" event
+    map.on('locationfound', onLocationFound);
+
+    // Show alert if geolocation failed
+    function onLocationError(e) {
+		alert(e.message);
+    }
+    // Subscribe to the "location error" event
+    map.on('locationerror', onLocationError);
+
+    // Set the view to current location
+    map.locate({setView: true, maxZoom: 16});  
+    */
+
+
 });
