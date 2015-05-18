@@ -84,6 +84,7 @@ function getDatos(fichero) {
 	        'dataType': "json",
 	        'success': function (data) {
 	        	json = data;
+	        	//console.log(json);
 	        }
 	    });
 
@@ -96,20 +97,42 @@ function getDatos(fichero) {
 }
 
 
-function getFotos(array_sitios) {
+function getFotos(sitio) {
+
+	//console.log(sitio);
+	etiqueta = sitio.properties.name;
+
+	var flickerAPI = "http://api.flickr.com/services/feeds/photos_public.gne?jsoncallback=?";
+
+	var fotos = $.getJSON( flickerAPI, {
+		tags: etiqueta + ", capital, monument",
+		text: etiqueta,
+		format: "json"
+	});
+
+	fotos.done(function(data) {		
+		num_aleat =  Math.floor((Math.random() * (data.items.length-1)) + 0);
+		
+		foto = data.items[num_aleat];
+		$( "<img>" ).attr( "src", foto.media.m ).appendTo( "#images" );
+	});
+}
 
 
+function iniciarJuego(pos_select, sitio) {
 
-
+	console.log(pos_select);
+	console.log(sitio);
+	
+	result = calcDistancia(pos_select.lat, pos_select.lng, sitio[0], sitio[1]);
+	$("#result").text("Puntuacion: " + result);
 }
 
 
 
 $(document).ready(function(){
 
-	datos = getDatos("juegos/Capitales.json");
-	console.log(datos);
-
+	// Mapas //
 	var map = L.map('map').setView([28.92163, -2.3125], 1);
 
 	L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
@@ -121,8 +144,12 @@ $(document).ready(function(){
 	}).addTo(map);
 
 
-    // SMuestra un marcador donde se clicka en el mapa
+	datos = getDatos("juegos/Capitales.json");
+	fotos = getFotos(datos[0]);
+
+    // Muestra un marcador donde se clicka en el mapa
     var marker;
+
     function showPopUp(e) {
     	if((typeof marker) !== "undefined"){
     		map.removeLayer(marker);
@@ -130,13 +157,12 @@ $(document).ready(function(){
     	marker = new L.marker(e.latlng, {draggable:true});
     	map.addLayer(marker);
     	marker.bindPopup("Has seleccionado este punto").openPopup();
+    	//llamo a la funcion que inicia el juego
+      	iniciarJuego(e.latlng, datos[0].geometry.coordinates);
     }
 
     // me suscribo al evento
     map.on('click', showPopUp);
-
-
-
 
 
 });

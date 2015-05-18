@@ -21,7 +21,16 @@
 	visibility: hidden;	
 }
 
+#images, #{
+	float: right;
+	width: 480px;
+	height: 320px;
+	margin: 0 auto;
+
+}
+
 #map { 
+	float: left;
 	width: 600px;
 	height: 420px;
 }
