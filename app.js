@@ -4,50 +4,6 @@ function removeFotos() {
 }
 
 
-function fotoSearch(etiqueta) {
-	var flickerAPI = "http://api.flickr.com/services/feeds/photos_public.gne?jsoncallback=?";
-
-	var fotos = $.getJSON( flickerAPI, {
-		tags: etiqueta + ", capital, monument",
-		text: etiqueta,
-		format: "json"
-	});
-
-	fotos.done(function(data) {		
-		var worker = new Worker("worker_fotos.js");		
-		data.items.length = 4;
-		worker.postMessage(data.items);	
-
-		worker.onmessage = function(event){
-			$("#imagenes").append(event.data);		
-			worker.terminate();
-		}
-	});
-};
-
-
-function pedirFichero(fichero){	
-
-	$.getJSON(fichero, function (data) {		
-		//console.log(data.features.length);
-		var worker = new Worker("worker_coords.js");
-		worker.postMessage(data.features);	
-
-		worker.onmessage = function(event){
-			$("#coords").append(event.data);		
-			worker.terminate();
-		}
-	}).done(function(data){
-		$.each(data.features, function (key, val) {			
-		    $.each(val.properties, function(name,valor){	    	
-		       	fotoSearch(valor);
-		    })              
-		});	
-	});
-}
-
-
-
 function calcDistancia(lat1, lon1, lat2, lon2) {
 	rad = function(x) {return x*Math.PI/180;}
 
@@ -63,15 +19,6 @@ function calcDistancia(lat1, lon1, lat2, lon2) {
 	// retorna 3 decimales
 	return d.toFixed(3);
 }
-
-
-// devuelve las coordenadas que estan en el index
-// despues de haberlas dejado allí mediante
-// la llamada asincrona del json
-function getCoors(id) {
-
-}
-
 
 
 function getDatos(fichero) {
@@ -97,35 +44,95 @@ function getDatos(fichero) {
 }
 
 
+function getRandomInt(min, max) {
+  return Math.floor(Math.random() * (max - min) + min);
+}
+
+
 function getFotos(sitio) {
 
-	//console.log(sitio);
+	removeFotos();
+
 	etiqueta = sitio.properties.name;
 
 	var flickerAPI = "http://api.flickr.com/services/feeds/photos_public.gne?jsoncallback=?";
 
 	var fotos = $.getJSON( flickerAPI, {
-		tags: etiqueta + ", capital, monument",
+		tags: etiqueta,
 		text: etiqueta,
 		format: "json"
 	});
 
 	fotos.done(function(data) {		
-		num_aleat =  Math.floor((Math.random() * (data.items.length-1)) + 0);
-		
+		num_aleat =  getRandomInt(0, data.items.length);
+		//console.log(num_aleat);
 		foto = data.items[num_aleat];
 		$( "<img>" ).attr( "src", foto.media.m ).appendTo( "#images" );
 	});
 }
 
 
-function iniciarJuego(pos_select, sitio) {
-
-	console.log(pos_select);
-	console.log(sitio);
-	
+function mostrarResult(pos_select, sitio) {
 	result = calcDistancia(pos_select.lat, pos_select.lng, sitio[0], sitio[1]);
-	$("#result").text("Puntuacion: " + result);
+	$("#result").text(result);
+}
+
+
+function salir(variable){
+	variable = true;
+}
+
+
+function elementoAleat(datos) {
+	num_aleat =  getRandomInt(0,datos.length);
+	return datos[num_aleat];
+}
+
+
+
+var puntuacion = 0.0;
+var num_fotos = 0;
+
+function mostrarPuntuacion() {
+	var puntos_jugada = parseFloat($("#result").html());
+	puntuacion = puntuacion + puntos_jugada;
+	console.log(puntos_jugada);
+	console.log(puntuacion);
+}
+
+
+
+function iniciarJuego(map, datos, dificultad) {
+	elemento = elementoAleat(datos);
+
+	getFotos(elemento);
+	num_fotos = 1;
+
+	var mostrar = setInterval(function() {
+		elemento = elementoAleat(datos);
+		getFotos(elemento)
+		num_fotos ++;
+		console.log(num_fotos);
+	}, dificultad);
+
+
+    // Muestra un marcador donde se clicka en el mapa
+    var marker;
+
+    function showPopUp(e) {
+    	if((typeof marker) !== "undefined"){
+    		map.removeLayer(marker);
+    	}
+    	marker = new L.marker(e.latlng, {draggable:true});
+    	map.addLayer(marker);
+    	marker.bindPopup("Has seleccionado este punto").openPopup();
+      	mostrarResult(e.latlng, elemento.geometry.coordinates);
+      	mostrarPuntuacion();
+    }
+
+
+    // me suscribo al evento
+    map.on('click', showPopUp);
 }
 
 
@@ -145,24 +152,7 @@ $(document).ready(function(){
 
 
 	datos = getDatos("juegos/Capitales.json");
-	fotos = getFotos(datos[0]);
-
-    // Muestra un marcador donde se clicka en el mapa
-    var marker;
-
-    function showPopUp(e) {
-    	if((typeof marker) !== "undefined"){
-    		map.removeLayer(marker);
-    	}
-    	marker = new L.marker(e.latlng, {draggable:true});
-    	map.addLayer(marker);
-    	marker.bindPopup("Has seleccionado este punto").openPopup();
-    	//llamo a la funcion que inicia el juego
-      	iniciarJuego(e.latlng, datos[0].geometry.coordinates);
-    }
-
-    // me suscribo al evento
-    map.on('click', showPopUp);
-
+	
+    iniciarJuego(map, datos, 10000);
 
 });

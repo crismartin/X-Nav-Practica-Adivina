@@ -12,12 +12,23 @@
 		"geometry": {"coordinates": [40.41677, -3.70379]},
 		"properties": {"name": "Madrid"}
 	},
-	
+
 	{
 	 	"type": "Feature",
-		"geometry": {"coordinates": [48.85661, 2.35222]},
-		"properties": {"name": "Paris"}
-	}
+		"geometry": {"coordinates": [-0.18065, -78.46783]},
+		"properties": {"name": "Quito"}
+	},
 
+	{
+	 	"type": "Feature",
+		"geometry": {"coordinates": [55.75582, 37.6173]},
+		"properties": {"name": "Moscú"}
+	},
+
+	{
+	 	"type": "Feature",
+		"geometry": {"coordinates": [-34.60372, -58.38159]},
+		"properties": {"name": "Buenos Aires"}
+	}
 	]
 }

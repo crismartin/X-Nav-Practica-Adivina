@@ -1,0 +1,39 @@
+{ "type": "FeatureCollection",
+	"features": [
+
+	{
+	 	"type": "Feature",
+		"geometry": {"coordinates": [40.453054, -3.68834]},
+		"properties": {"name": "Santiago Bernabeu"}
+	},
+
+	{
+	 	"type": "Feature",
+		"geometry": {"coordinates": [40.41677, -3.70379]},
+		"properties": {"name": "Camp Nou"}
+	},
+	
+	{
+	 	"type": "Feature",
+		"geometry": {"coordinates": [53.43140, -2.95998]},
+		"properties": {"name": "Anfield"}
+	},
+
+	{
+	 	"type": "Feature",
+		"geometry": {"coordinates": [48.2188, 11.62470]},
+		"properties": {"name": "Allianz Arena"}
+	},
+
+	{
+	 	"type": "Feature",
+		"geometry": {"coordinates": [48.84143, 2.25304]},
+		"properties": {"name": "Parc des Princes"}
+	},
+	{
+	 	"type": "Feature",
+		"geometry": {"coordinates": [51.49258, 37.6173]},
+		"properties": {"name": "Signal iduna park"}
+	}
+	]
+}
