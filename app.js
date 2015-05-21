@@ -106,11 +106,11 @@ function penalizar() {
 
 
 function mostrarPuntuacion() {
+	punt_anterior = puntuacion;
 	var puntos_jugada = parseFloat($("#result").html());
 	puntuacion = puntuacion + puntos_jugada;
 	console.log(puntos_jugada);
 	console.log(puntuacion);
-	punt_anterior = puntuacion;
 }
 
 
@@ -139,7 +139,6 @@ function iniciarJuego(map, datos, dificultad) {
 	}, dificultad);
 
 
-
     // Muestra un marcador donde se clicka en el mapa
     var marker;
 
@@ -159,15 +158,15 @@ function iniciarJuego(map, datos, dificultad) {
 
 function endGame(map) {
 
-	map.off();
+	map.off('click');
 	// borro lo anterior
 	$("#punt_total").empty();
 
 	// resto 7000 para compensar
 	puntuacion = puntuacion - 7000;
 	// mostrar numero de fotos
-	result = "<p>Fotos mostradas: " + num_fotos + "</p>";
-	result += "<p>Puntuacion total: " + puntuacion.toFixed(3)+"</p>";
+	result = "<p><b>Fotos mostradas: </b>" + num_fotos + "</p>";
+	result += "<p><b>Puntuacion total: </b>" + puntuacion.toFixed(2)+"</p>";
 	$("#punt_total").html(result);
 
 }
