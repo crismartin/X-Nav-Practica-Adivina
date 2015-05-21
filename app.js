@@ -64,11 +64,16 @@ function getFotos(sitio) {
 	});
 
 	fotos.done(function(data) {		
-		num_aleat =  getRandomInt(0, data.items.length);
-		//console.log(num_aleat);
-		foto = data.items[num_aleat];
-		$( "<img>" ).attr( "src", foto.media.m ).appendTo( "#images" );
+		mostrarFoto(data);
 	});
+}
+
+
+function mostrarFoto(data) {
+	num_aleat =  getRandomInt(0, data.items.length);
+	//console.log(num_aleat);
+	foto = data.items[num_aleat];
+	$( "<img>" ).attr( "src", foto.media.m ).appendTo( "#images" );
 }
 
 
@@ -89,12 +94,12 @@ function elementoAleat(datos) {
 }
 
 
-
+// Variables del juego
 var puntuacion = 0.0;
 var num_fotos = 0;
 var punt_anterior = 0.0;
 var marker = undefined;
-
+var mostrar;
 
 function penalizar() {
 	console.log("puntuacion: " + puntuacion);
@@ -142,11 +147,11 @@ function iniciarJuego(map, datos, dificultad) {
 	penalizar();
 
    // me suscribo al evento
-	var mostrar = setInterval(function() {
+	mostrar = setInterval(function() {
 		resetPointJugada();
 		map.on('click', showPopUp);
 		elemento = elementoAleat(datos);
-		getFotos(elemento)
+		fotos = getFotos(elemento)
 		num_fotos ++;
 		console.log(num_fotos);
 		penalizar();
@@ -170,8 +175,8 @@ function iniciarJuego(map, datos, dificultad) {
 
 function endGame(map) {
 
+	clearTimeout(mostrar);
 	map.off('click');
-	// borro lo anterior
 	$("#punt_total").empty();
 
 	// resto 7000 para compensar
