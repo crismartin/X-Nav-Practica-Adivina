@@ -92,30 +92,50 @@ function elementoAleat(datos) {
 
 var puntuacion = 0.0;
 var num_fotos = 0;
+var punt_anterior = 0.0;
+
+function penalizar() {
+	console.log("puntuacion: " + puntuacion);
+	console.log("puntuacion_anterior: "+ punt_anterior);
+
+	if(punt_anterior === puntuacion) {
+		puntuacion = puntuacion + 7000;
+		punt_anterior = puntuacion;
+	}	
+}
+
 
 function mostrarPuntuacion() {
 	var puntos_jugada = parseFloat($("#result").html());
 	puntuacion = puntuacion + puntos_jugada;
 	console.log(puntos_jugada);
 	console.log(puntuacion);
+	punt_anterior = puntuacion;
 }
 
+
+function resetPointJugada(){
+	$("#result").text("0");
+}
 
 
 function iniciarJuego(map, datos, dificultad) {
 	elemento = elementoAleat(datos);
-
+	
 	getFotos(elemento);
 	num_fotos = 1;
 	map.on('click', showPopUp);
+	penalizar();
 
    // me suscribo al evento
 	var mostrar = setInterval(function() {
+		resetPointJugada();
 		map.on('click', showPopUp);
 		elemento = elementoAleat(datos);
 		getFotos(elemento)
 		num_fotos ++;
 		console.log(num_fotos);
+		penalizar();
 	}, dificultad);
 
 
@@ -133,7 +153,6 @@ function iniciarJuego(map, datos, dificultad) {
     	marker.bindPopup("Has seleccionado este punto").openPopup();
       	mostrarResult(e.latlng, elemento.geometry.coordinates);
       	mostrarPuntuacion();
-
     }
 }
 
@@ -144,6 +163,8 @@ function endGame(map) {
 	// borro lo anterior
 	$("#punt_total").empty();
 
+	// resto 7000 para compensar
+	puntuacion = puntuacion - 7000;
 	// mostrar numero de fotos
 	result = "<p>Fotos mostradas: " + num_fotos + "</p>";
 	result += "<p>Puntuacion total: " + puntuacion.toFixed(3)+"</p>";
@@ -169,10 +190,11 @@ $(document).ready(function(){
 
 	datos = getDatos("juegos/Capitales.json");
 	
-    iniciarJuego(map, datos, 5000);
+    iniciarJuego(map, datos, 10000);
 
     $("#end_game").click(function(){
     	endGame(map);
+    	$("#end_game").off('click');
     });
 
 
