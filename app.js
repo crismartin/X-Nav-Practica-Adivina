@@ -93,6 +93,8 @@ function elementoAleat(datos) {
 var puntuacion = 0.0;
 var num_fotos = 0;
 var punt_anterior = 0.0;
+var marker = undefined;
+
 
 function penalizar() {
 	console.log("puntuacion: " + puntuacion);
@@ -118,11 +120,23 @@ function resetPointJugada(){
 	$("#result").text("0");
 }
 
+function reset_stadistics(){
+	puntuacion = 0.0;
+	num_fotos = 0;
+	punt_anterior = 0.0;
+}
+
 
 function iniciarJuego(map, datos, dificultad) {
+	$("#start_game").css({"visibility": "hidden"});
+	$("#end_game").css({"visibility": "visible"});
+	$("#images").css({"visibility": "visible"});
+
+	reset_stadistics();
 	elemento = elementoAleat(datos);
-	
-	getFotos(elemento);
+	$("#punt_total").html("<p>Puntuacion: <span id='result'>0</span></p>");
+
+	fotos = getFotos(elemento);
 	num_fotos = 1;
 	map.on('click', showPopUp);
 	penalizar();
@@ -138,9 +152,7 @@ function iniciarJuego(map, datos, dificultad) {
 		penalizar();
 	}, dificultad);
 
-
     // Muestra un marcador donde se clicka en el mapa
-    var marker;
 
     function showPopUp(e){    
     	map.off('click');
@@ -164,13 +176,17 @@ function endGame(map) {
 
 	// resto 7000 para compensar
 	puntuacion = puntuacion - 7000;
+
+	if(puntuacion === -7000){
+		puntuacion = 100000;
+	}
 	// mostrar numero de fotos
-	result = "<p><b>Fotos mostradas: </b>" + num_fotos + "</p>";
-	result += "<p><b>Puntuacion total: </b>" + puntuacion.toFixed(2)+"</p>";
+	result = "<p><b>Fotos mostradas: </b>" + num_fotos + "<br>";
+	result += "<b>Puntuacion total: </b>" + puntuacion.toFixed(2)+"</p>";
 	$("#punt_total").html(result);
+	map.removeLayer(marker);
 
 }
-
 
 
 $(document).ready(function(){
@@ -185,16 +201,18 @@ $(document).ready(function(){
 			'Imagery © <a href="http://mapbox.com">Mapbox</a>',
 		id: 'examples.map-i875mjb7'
 	}).addTo(map);
-
-
-	datos = getDatos("juegos/Capitales.json");
 	
-    iniciarJuego(map, datos, 10000);
+	
+	$("#start_game").click(function(){
+		datos = getDatos("juegos/Capitales.json");
+    	iniciarJuego(map, datos, 10000);
+	});
+	
 
     $("#end_game").click(function(){
+    	$("#end_game").css({"visibility": "hidden"});
+    	$("#start_game").css({"visibility": "visible"});
+    	$("#images").css({"visibility": "hidden"});  
     	endGame(map);
-    	$("#end_game").off('click');
     });
-
-
 });

@@ -34,3 +34,8 @@
 	width: 600px;
 	height: 420px;
 }
+
+
+#end_game, #images{
+	visibility: hidden;
+}
