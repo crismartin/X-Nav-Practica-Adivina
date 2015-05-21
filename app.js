@@ -124,7 +124,7 @@ function iniciarJuego(map, datos, dificultad) {
     var marker;
 
     function showPopUp(e){    
-    	map.off();
+    	map.off('click');
     	if((typeof marker) !== "undefined"){
     		map.removeLayer(marker);
     	}
