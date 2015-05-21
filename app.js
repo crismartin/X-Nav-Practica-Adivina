@@ -107,8 +107,11 @@ function iniciarJuego(map, datos, dificultad) {
 
 	getFotos(elemento);
 	num_fotos = 1;
+	map.on('click', showPopUp);
 
+   // me suscribo al evento
 	var mostrar = setInterval(function() {
+		map.on('click', showPopUp);
 		elemento = elementoAleat(datos);
 		getFotos(elemento)
 		num_fotos ++;
@@ -116,10 +119,12 @@ function iniciarJuego(map, datos, dificultad) {
 	}, dificultad);
 
 
+
     // Muestra un marcador donde se clicka en el mapa
     var marker;
 
-    function showPopUp(e) {
+    function showPopUp(e){    
+    	map.off();
     	if((typeof marker) !== "undefined"){
     		map.removeLayer(marker);
     	}
@@ -128,11 +133,22 @@ function iniciarJuego(map, datos, dificultad) {
     	marker.bindPopup("Has seleccionado este punto").openPopup();
       	mostrarResult(e.latlng, elemento.geometry.coordinates);
       	mostrarPuntuacion();
+
     }
+}
 
 
-    // me suscribo al evento
-    map.on('click', showPopUp);
+function endGame(map) {
+
+	map.off();
+	// borro lo anterior
+	$("#punt_total").empty();
+
+	// mostrar numero de fotos
+	result = "<p>Fotos mostradas: " + num_fotos + "</p>";
+	result += "<p>Puntuacion total: " + puntuacion.toFixed(3)+"</p>";
+	$("#punt_total").html(result);
+
 }
 
 
@@ -153,6 +169,11 @@ $(document).ready(function(){
 
 	datos = getDatos("juegos/Capitales.json");
 	
-    iniciarJuego(map, datos, 10000);
+    iniciarJuego(map, datos, 5000);
+
+    $("#end_game").click(function(){
+    	endGame(map);
+    });
+
 
 });
