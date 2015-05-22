@@ -175,23 +175,24 @@ function iniciarJuego(map, datos, dificultad) {
 	}, dificultad);
 
     // Muestra un marcador donde se clicka en el mapa
-
-    function showPopUp(e){     
-    	resetMarkers(map);	
-    	map.off('click');
-    	marker = new L.marker(e.latlng, {draggable:true});
-    	map.addLayer(marker);
-    	marker.bindPopup("Has seleccionado este punto").openPopup();
-
-      	coordenadas = elemento.geometry.coordinates;
-      	name = elemento.properties.name;
-		mostrarSolucion(map, coordenadas, name);
-      	mostrarResult(e.latlng, coordenadas);
-     
-      	mostrarPuntuacion();
-    }
-
 }
+
+
+function showPopUp(e){     
+	resetMarkers(map);	
+	map.off('click');
+	marker = new L.marker(e.latlng, {draggable:true});
+	map.addLayer(marker);
+	marker.bindPopup("Has seleccionado este punto").openPopup();
+
+  	coordenadas = elemento.geometry.coordinates;
+  	name = elemento.properties.name;
+	mostrarSolucion(map, coordenadas, name);
+  	mostrarResult(e.latlng, coordenadas);
+ 
+  	mostrarPuntuacion();
+}
+
 
 function mostrarSolucion(map, coordenadas, name) {
 	marker_sol = L.marker(coordenadas, 
@@ -219,6 +220,7 @@ function endGame(map) {
 	result += "<b>Puntuacion total: </b>" + puntuacion.toFixed(2)+"</p>";
 	$("#punt_total").html(result);
 
+	$("#titulo").text("¡Adivina dónde está!");
     $("#inicio_game").css({"visibility": "visible", "display": "inline"});
     $("#start_game").css({"visibility": "visible"});
 }
@@ -236,6 +238,7 @@ function setDificultad() {
 function startGame(map, name) {
 	nombre = $( "#menu_juegos option:selected" ).text();
 	datos = getDatos("juegos/" + nombre +".json");
+	$("#titulo").text(nombre);
 	dificultad = setDificultad();
     iniciarJuego(map, datos, dificultad);
     $("#inicio_game").css({"visibility": "collapse", "display":"none"});
