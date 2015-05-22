@@ -10,35 +10,55 @@
 		<script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
 		<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
 
+		<!--JQuery -->
+		<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 
 		<!-- JQuery UI -->
+		<link rel="stylesheet" href="jquery-ui/jquery-ui.min.css">
 		<script src="jquery-ui/external/jquery/jquery.js"></script>
-		<link rel="stylesheet" href="jquery-ui/jquery-ui.theme.min.css"/>
-		<link rel="stylesheet" href="jquery-ui/jquery-ui.min.css"/>
- 		<script src="jquery-ui/jquery-ui.min.js"></script>
- 				
+		<script src="jquery-ui/jquery-ui.min.js"></script>
 
 		<!-- Codigo de la app -->
 		<script src='app.js'></script>
+
 	</head>
 	
+
 	<body>		
 
 		<div>
 			<p>Recuerda: S&oacute;lo podr&aacute;s hacer un click por foto.<br>
 				Mientras menos puntuaci&oacute;n final obtengas, mejor habr&aacute;s jugado.<br>
-				Se <b>penalizara</b> con <b>7000</b> m&aacute;s a la puntuaci&oacute;n
+				Se <b>penalizara</b> con <b>100'000</b> m&aacute;s a la puntuaci&oacute;n
 				total si no haces una jugada.
 			</p>
 		</div>
 
-		<div>
+
+
+		<div id="inicio_game">
+ 			<h2 class = "demoHeaders">Juegos anteriores...</h2>
+ 			<p>
+ 			<select id="menu_juegos">
+ 				<option selected="selected">Capitales</option> 			
+ 				<option>Estadios</option>
+ 				<option>Monumentos</option>
+ 			</select>
+ 			</p>
+
 			<p>
-		  		<label for="spinner">Dificultad:</label>
-  				<input id="spinner" name="value">
+		  	<label for="spinner">Dificultad (en segundos):</label>
+  			<input id="dificultad" name="value"><br>
+  			* 10 segundos por defecto
   			</p>
+
+  			<p>
 			<button id="start_game" class="demoHeaders">Start Game</button>
+			</p>
 		</div>
+
+
+
 
 		<div id="map"></div>
 		<div id="images"></div>
@@ -57,6 +77,5 @@
  		</div>
 
  		<button id="end_game" class="demoHeaders">End Game</button>
-
 	</body>
 </html>

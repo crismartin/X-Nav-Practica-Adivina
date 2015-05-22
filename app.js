@@ -59,7 +59,6 @@ function getFotos(sitio) {
 
 	var fotos = $.getJSON( flickerAPI, {
 		tags: etiqueta,
-		text: etiqueta,
 		format: "json"
 	});
 
@@ -71,8 +70,9 @@ function getFotos(sitio) {
 
 function mostrarFoto(data) {
 	num_aleat =  getRandomInt(0, data.items.length);
-	//console.log(num_aleat);
+	console.log(data.items.length);
 	foto = data.items[num_aleat];
+
 	$( "<img>" ).attr( "src", foto.media.m ).appendTo( "#images" );
 }
 
@@ -101,6 +101,7 @@ var punt_anterior = 0.0;
 var marker = undefined;
 var mostrar;
 var marker_sol = undefined;
+var dificultad = 10000;
 
 function penalizar() {
 	console.log("puntuacion: " + puntuacion);
@@ -133,9 +134,14 @@ function reset_stadistics(){
 }
 
 function resetMarkers(map) {
-	if((typeof marker) !== "undefined"){
+	try{
+		console.log("borrando...");
+		console.log(marker);
+		console.log(marker_sol);
     	map.removeLayer(marker);
 		map.removeLayer(marker_sol);
+    }catch(e){
+    	//ignoro
     }
 }
 
@@ -155,22 +161,23 @@ function iniciarJuego(map, datos, dificultad) {
 	num_fotos = 1;
 	map.on('click', showPopUp);
 	penalizar();
-
+	resetMarkers();
    // me suscribo al evento
 	mostrar = setInterval(function() {
+		console.log("otra jugada");		
 		resetMarkers(map);
 		resetPointJugada();
-		map.on('click', showPopUp);
 		elemento = elementoAleat(datos);
-		fotos = getFotos(elemento)
+		fotos = getFotos(elemento);
+		map.on('click', showPopUp);
 		num_fotos ++;
-		console.log(num_fotos);
 		penalizar();
 	}, dificultad);
 
     // Muestra un marcador donde se clicka en el mapa
 
-    function showPopUp(e){    
+    function showPopUp(e){     
+    	resetMarkers(map);	
     	map.off('click');
     	marker = new L.marker(e.latlng, {draggable:true});
     	map.addLayer(marker);
@@ -178,10 +185,10 @@ function iniciarJuego(map, datos, dificultad) {
 
       	coordenadas = elemento.geometry.coordinates;
       	name = elemento.properties.name;
-
+		mostrarSolucion(map, coordenadas, name);
       	mostrarResult(e.latlng, coordenadas);
-      	mostrarSolucion(map, coordenadas, name);
-      	mostrarPuntuacion();      	
+     
+      	mostrarPuntuacion();
     }
 
 }
@@ -198,26 +205,45 @@ function endGame(map) {
 
 	clearTimeout(mostrar);
 	map.off('click');
+	resetMarkers(map);
 	$("#punt_total").empty();
 
 	// resto 7000 para compensar
 	puntuacion = puntuacion - 7000;
 
-	if(puntuacion === -7000){
+	if(puntuacion === -7000 || puntuacion === 0){
 		puntuacion = 100000;
 	}
 	// mostrar numero de fotos
 	result = "<p><b>Fotos mostradas: </b>" + num_fotos + "<br>";
 	result += "<b>Puntuacion total: </b>" + puntuacion.toFixed(2)+"</p>";
 	$("#punt_total").html(result);
-	map.removeLayer(marker);
-	map.removeLayer(marker_sol);
 
+    $("#inicio_game").css({"visibility": "visible", "display": "inline"});
+    $("#start_game").css({"visibility": "visible"});
+}
+
+
+function setDificultad() {
+	dificultad = spinner.spinner("value");
+	if(dificultad === null){
+		dificultad = 10;
+	}
+	return dificultad*1000;
+}
+
+
+function startGame(map, name) {
+	nombre = $( "#menu_juegos option:selected" ).text();
+	datos = getDatos("juegos/" + nombre +".json");
+	dificultad = setDificultad();
+    iniciarJuego(map, datos, dificultad);
+    $("#inicio_game").css({"visibility": "collapse", "display":"none"});
 }
 
 
 $(document).ready(function(){
-	
+
 	// Mapas //
 	var map = L.map('map').setView([28.92163, -2.3125], 1);
 
@@ -231,16 +257,26 @@ $(document).ready(function(){
 	
 	
 	$("#start_game").click(function(){
-		datos = getDatos("juegos/Monumentos.json");
-    	iniciarJuego(map, datos, 10000);
+		startGame(map, juego_name);
 	});
 	
 
-
     $("#end_game").click(function(){
     	$("#end_game").css({"visibility": "hidden"});
-    	$("#start_game").css({"visibility": "visible"});
     	$("#images").css({"visibility": "hidden"});  
     	endGame(map);
     });
+
+	$( "#selectmenu" ).selectmenu({
+  		position: { my : "left+10 center", at: "right center" }
+	});
+
+	juego_name = $( "#menu_juegos" ).selectmenu({
+  		position: { my : "left+10 center", at: "right center" }
+	});
+
+	spinner = $("#dificultad").spinner({min:4});
+
+	start_game = $("#start_game").button();
+	end_game = $("#end_game").button();
 });

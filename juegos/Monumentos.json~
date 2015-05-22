@@ -19,11 +19,6 @@
 		"properties": {"name": "Museo Guggenheim"}
 	},
 
-	{
-	 	"type": "Feature",
-		"geometry": {"type": "Point","coordinates": [27.17501, 78.042154]},
-		"properties": {"name": "Taj Mahal"}
-	},
 
 	{
 	 	"type": "Feature",
@@ -60,8 +55,5 @@
 		"geometry": {"type": "Point","coordinates": [29.97729, 31.13249]},
 		"properties": {"name": "Pirámides de Giza"}
 	}
-
-
-
 	]
 }
