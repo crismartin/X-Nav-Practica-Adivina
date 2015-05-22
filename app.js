@@ -100,6 +100,7 @@ var num_fotos = 0;
 var punt_anterior = 0.0;
 var marker = undefined;
 var mostrar;
+var marker_sol = undefined;
 
 function penalizar() {
 	console.log("puntuacion: " + puntuacion);
@@ -131,6 +132,13 @@ function reset_stadistics(){
 	punt_anterior = 0.0;
 }
 
+function resetMarkers(map) {
+	if((typeof marker) !== "undefined"){
+    	map.removeLayer(marker);
+		map.removeLayer(marker_sol);
+    }
+}
+
 
 function iniciarJuego(map, datos, dificultad) {
 	$("#start_game").css({"visibility": "hidden"});
@@ -139,7 +147,9 @@ function iniciarJuego(map, datos, dificultad) {
 
 	reset_stadistics();
 	elemento = elementoAleat(datos);
-	$("#punt_total").html("<p>Puntuacion: <span id='result'>0</span></p>");
+	
+	$("#punt_total").html("<p>Distancia entre los puntos: "+
+		"<span id='result'>0</span></p>");
 
 	fotos = getFotos(elemento);
 	num_fotos = 1;
@@ -148,6 +158,7 @@ function iniciarJuego(map, datos, dificultad) {
 
    // me suscribo al evento
 	mostrar = setInterval(function() {
+		resetMarkers(map);
 		resetPointJugada();
 		map.on('click', showPopUp);
 		elemento = elementoAleat(datos);
@@ -161,15 +172,25 @@ function iniciarJuego(map, datos, dificultad) {
 
     function showPopUp(e){    
     	map.off('click');
-    	if((typeof marker) !== "undefined"){
-    		map.removeLayer(marker);
-    	}
     	marker = new L.marker(e.latlng, {draggable:true});
     	map.addLayer(marker);
     	marker.bindPopup("Has seleccionado este punto").openPopup();
-      	mostrarResult(e.latlng, elemento.geometry.coordinates);
-      	mostrarPuntuacion();
+
+      	coordenadas = elemento.geometry.coordinates;
+      	name = elemento.properties.name;
+
+      	mostrarResult(e.latlng, coordenadas);
+      	mostrarSolucion(map, coordenadas, name);
+      	mostrarPuntuacion();      	
     }
+
+}
+
+function mostrarSolucion(map, coordenadas, name) {
+	marker_sol = L.marker([coordenadas[0], coordenadas[1]], 
+		{color: 'red',
+    	}).addTo(map);
+	marker_sol.bindPopup(name).openPopup();	
 }
 
 
@@ -190,6 +211,7 @@ function endGame(map) {
 	result += "<b>Puntuacion total: </b>" + puntuacion.toFixed(2)+"</p>";
 	$("#punt_total").html(result);
 	map.removeLayer(marker);
+	map.removeLayer(marker_sol);
 
 }
 

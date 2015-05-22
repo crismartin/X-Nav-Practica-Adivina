@@ -3,31 +3,31 @@
 
 	{
 	 	"type": "Feature",
-		"geometry": {"coordinates": [38.90719, -77.03687]},
+		"geometry": {"type": "Point", "coordinates": [38.90719, -77.03687]},
 		"properties": {"name": "Washington DC"}
 	},
 
 	{
 	 	"type": "Feature",
-		"geometry": {"coordinates": [40.41677, -3.70379]},
+		"geometry": {"type": "Point","coordinates": [40.41677, -3.70379]},
 		"properties": {"name": "Madrid"}
 	},
 
 	{
 	 	"type": "Feature",
-		"geometry": {"coordinates": [-0.18065, -78.46783]},
+		"geometry": {"type": "Point","coordinates": [-0.18065, -78.46783]},
 		"properties": {"name": "Quito"}
 	},
 
 	{
 	 	"type": "Feature",
-		"geometry": {"coordinates": [55.75582, 37.6173]},
+		"geometry": {"type": "Point","coordinates": [55.75582, 37.6173]},
 		"properties": {"name": "Moscú"}
 	},
 
 	{
 	 	"type": "Feature",
-		"geometry": {"coordinates": [-34.60372, -58.38159]},
+		"geometry": {"type": "Point","coordinates": [-34.60372, -58.38159]},
 		"properties": {"name": "Buenos Aires"}
 	}
 
