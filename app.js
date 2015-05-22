@@ -272,7 +272,8 @@ $(document).ready(function(){
 	});
 
 	juego_name = $( "#menu_juegos" ).selectmenu({
-  		position: { my : "left+10 center", at: "right center" }
+  		position: { my : "left+10 center", at: "right center" },
+  		width: "200px"
 	});
 
 	spinner = $("#dificultad").spinner({min:4});
