@@ -187,7 +187,7 @@ function iniciarJuego(map, datos, dificultad) {
 }
 
 function mostrarSolucion(map, coordenadas, name) {
-	marker_sol = L.marker([coordenadas[0], coordenadas[1]], 
+	marker_sol = L.marker(coordenadas, 
 		{color: 'red',
     	}).addTo(map);
 	marker_sol.bindPopup(name).openPopup();	
@@ -217,7 +217,7 @@ function endGame(map) {
 
 
 $(document).ready(function(){
-
+	
 	// Mapas //
 	var map = L.map('map').setView([28.92163, -2.3125], 1);
 
@@ -231,10 +231,11 @@ $(document).ready(function(){
 	
 	
 	$("#start_game").click(function(){
-		datos = getDatos("juegos/Capitales.json");
+		datos = getDatos("juegos/Monumentos.json");
     	iniciarJuego(map, datos, 10000);
 	});
 	
+
 
     $("#end_game").click(function(){
     	$("#end_game").css({"visibility": "hidden"});

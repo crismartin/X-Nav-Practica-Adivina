@@ -1,0 +1,64 @@
+{ "type": "FeatureCollection",
+	"features": [
+
+	{
+	 	"type": "Feature",
+		"geometry": {"type": "Point", "coordinates": [40.68924, -74.044499]},
+		"properties": {"name": "Estatua de la libertad"}
+	},
+
+	{
+	 	"type": "Feature",
+		"geometry": {"type": "Point","coordinates": [48.85837, 2.29448]},
+		"properties": {"name": "Torre Eifel"}
+	},
+
+	{
+	 	"type": "Feature",
+		"geometry": {"type": "Point","coordinates": [43.268671, -2.93401]},
+		"properties": {"name": "Museo Guggenheim"}
+	},
+
+	{
+	 	"type": "Feature",
+		"geometry": {"type": "Point","coordinates": [27.17501, 78.042154]},
+		"properties": {"name": "Taj Mahal"}
+	},
+
+	{
+	 	"type": "Feature",
+		"geometry": {"type": "Point","coordinates": [-22.95191, -43.21048]},
+		"properties": {"name": "Cristo Redentor"}
+	},
+
+	{
+	 	"type": "Feature",
+		"geometry": {"type": "Point","coordinates": [51.500729, -0.124625]},
+		"properties": {"name": "Big Ben"}
+	},
+
+	{
+	 	"type": "Feature",
+		"geometry": {"type": "Point","coordinates": [41.89021, 12.49223]},
+		"properties": {"name": "Coliseo de Roma"}
+	},
+
+	{
+	 	"type": "Feature",
+		"geometry": {"type": "Point","coordinates": [37.96845, 23.72852]},
+		"properties": {"name": "Museo de la Acrópolis"}
+	},
+
+	{
+	 	"type": "Feature",
+		"geometry": {"type": "Point","coordinates": [-33.85689, 151.21528]},
+		"properties": {"name": "Ópera de Sídney"}
+	},
+
+	{
+	 	"type": "Feature",
+		"geometry": {"type": "Point","coordinates": [29.97729, 31.13249]},
+		"properties": {"name": "Pirámides de Giza"}
+	}
+	]
+}
