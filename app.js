@@ -174,24 +174,26 @@ function iniciarJuego(map, datos, dificultad) {
 		penalizar();
 	}, dificultad);
 
+	function showPopUp(e){     
+		resetMarkers(map);	
+		map.off('click');
+		marker = new L.marker(e.latlng, {draggable:true});
+		map.addLayer(marker);
+		marker.bindPopup("Has seleccionado este punto").openPopup();
+
+		coordenadas = elemento.geometry.coordinates;
+		name = elemento.properties.name;
+		mostrarSolucion(map, coordenadas, name);
+		mostrarResult(e.latlng, coordenadas);
+
+		mostrarPuntuacion();
+	}
+
     // Muestra un marcador donde se clicka en el mapa
 }
 
 
-function showPopUp(e){     
-	resetMarkers(map);	
-	map.off('click');
-	marker = new L.marker(e.latlng, {draggable:true});
-	map.addLayer(marker);
-	marker.bindPopup("Has seleccionado este punto").openPopup();
 
-  	coordenadas = elemento.geometry.coordinates;
-  	name = elemento.properties.name;
-	mostrarSolucion(map, coordenadas, name);
-  	mostrarResult(e.latlng, coordenadas);
- 
-  	mostrarPuntuacion();
-}
 
 
 function mostrarSolucion(map, coordenadas, name) {
