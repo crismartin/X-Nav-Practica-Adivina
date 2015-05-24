@@ -19,6 +19,7 @@
 }
 
 #images{
+	display: none;
 	float: right;
 	width: 480px;
 	height: 320px;
@@ -28,11 +29,36 @@
 
 #map { 
 	float: left;
-	width: 600px;
+	width: 540px;
 	height: 420px;
 }
 
 
 #end_game, #images{
 	visibility: hidden;
+}
+
+
+#punt_total, #juegos_disp{
+	text-align: center;
+}
+
+.textos{
+	font-size: 140%;
+}
+
+#dificultad, #start_game, #end_game{
+	margin-left: 166px;
+    margin-right: -39px;
+}
+
+#selectmenu{
+	margin-left: -80px;	
+}
+
+#imagen_mostrada {
+  position: absolute;
+  top: 50%; 
+  left: 50%;
+  transform: translate(-50%, -50%);
 }

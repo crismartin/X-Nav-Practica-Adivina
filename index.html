@@ -1,80 +1,223 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<title>Adivina d&oacute;nde est&aacute;</title>
-		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">	
-		<link rel="stylesheet" href="estilo.css" />
 
-		<!-- Leafleft -->
-		<script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
-		<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+<head>
+    <title>Adivina d&oacute;nde est&aacute;</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="estilo.css" />
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/jquery-ui.min.css" rel="stylesheet">
+ 
+    <link rel="stylesheet" href="css/landing-page.css"/>
 
-		<!--JQuery -->
-		<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+    <!-- Leafleft -->
+    <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
 
-		<!-- JQuery UI -->
-		<link rel="stylesheet" href="jquery-ui/jquery-ui.min.css">
-		<script src="jquery-ui/external/jquery/jquery.js"></script>
-		<script src="jquery-ui/jquery-ui.min.js"></script>
+    <!-- jQuery-UI + BootStrap -->
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery-ui.min.js"></script>
+ 
+    <!-- Codigo de la app -->
+    <script src='app.js'></script>
 
-		<!-- Codigo de la app -->
-		<script src='app.js'></script>
-
-	</head>
-	
-
-	<body>		
-
-		<div>
-			<p>Recuerda: S&oacute;lo podr&aacute;s hacer un click por foto.<br>
-				Mientras menos puntuaci&oacute;n final obtengas, mejor habr&aacute;s jugado.<br>
-				Se <b>penalizara</b> con <b>100'000</b> m&aacute;s a la puntuaci&oacute;n
-				total si no haces una jugada.
-			</p>
-		</div>
+    <!-- Custom Fonts -->
+    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
+</head>
 
 
-		<h2 id="titulo">¡Adivina d&oacute;nde est&aacute;! </h2>
-		<div id="inicio_game"> 		
- 			<p>
- 			<select id="menu_juegos">
- 				<option selected="selected">Capitales</option> 			
- 				<option>Estadios</option>
- 				<option>Monumentos</option>
- 			</select>
- 			</p>
+<body>
 
-			<p>
-		  	<label for="spinner">Dificultad (en segundos):</label>
-  			<input id="dificultad" name="value"><br>
-  			* 10 segundos por defecto
-  			</p>
+    <!-- Navigation -->
+    <nav class="navbar navbar-default navbar-fixed-top topnav" role="navigation">
+        <div class="container topnav">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand topnav" href="#">Inicio</a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#about">About</a>
+                    </li>
+                    <li>
+                        <a href="#services">Services</a>
+                    </li>
+                    <li>
+                        <a href="#contact">Contact</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
 
-  			<p>
-			<button id="start_game" class="demoHeaders">Start Game</button>
-			</p>
-		</div>
 
+    <!-- Header -->
+    <a name="about"></a>
+    <div class="intro-header">
+        <div class="container">
 
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="intro-message">
+                        <h1>¡ Adivina d&oacute;nde est&aacute; !</h1>
+                        <h3>Juego de pistas con im&aacute;genes de Flickr.</h3>
+                        <hr class="intro-divider">
+                        <ul class="list-inline intro-social-buttons">
+                            <li>
+                                <a href="https://twitter.com/urjc_dat" class="btn btn-default btn-lg">
+				                <i class="fa fa-twitter fa-fw"></i> 
+				                <span class="network-name">Twitter</span></a>
+                            </li>
+                            <li>
+                                <a href="https://github.com/crismartin/X-Nav-Practica-Adivina" class="btn btn-default btn-lg">
+				                <i class="fa fa-github fa-fw"></i> 
+				                <span class="network-name">Github</span></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
 
+        </div>
+        <!-- /.container -->
+    </div>
 
-		<div id="map"></div>
-		<div id="images"></div>
-		
-		<div id="punt_total"><p>Distancia entre los puntos: 
-			<span id="result">0</span></p>
-		</div>
+    <hr>
+    <!-- /.intro-header -->
 
-		<div id="juegos_disp">
- 			<h2 class = "demoHeaders">Juegos anteriores...</h2>
- 			<select id="selectmenu">
- 				<option selected="selected"> --</option>
- 				<option>Capitales, 12/02/2015, puntuacion: 919</option>
- 				<option>Estadios, 16/02/2015, puntuacion: 232</option>
- 			</select>
- 		</div>
+    <!-- Page Content -->
 
- 		<button id="end_game" class="demoHeaders">End Game</button>
-	</body>
+	<a  name="services"></a>
+    <div class="content-section-a">
+
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-5 col-sm-6">
+                    <hr class="section-heading-spacer">
+                    <div class="clearfix"></div>
+                    <h2 class="section-heading">Adivina y marca<br>la respuesta en el Mapa</h2>
+                    <p class="lead">
+                        Nosotros te daremos pistas en forma de fotograf&iacute;as y t&uacute;
+                        deberas adivinar, marc&aacute;ndo en el mapa, la parte del mundo
+                        a la que se refiere dicha pista. ¡As&iacute; de sencillo!<br><br>
+                        Elige entre las distintas variantes del juego (Capitales, Monumentos, etc).<br><br>
+                        Recuerda: S&oacute;lo podr&aacute;s hacer un click por foto.<br><br>
+                        Mientras menos puntuaci&oacute;n final obtengas, mejor habr&aacute;s jugado.<br>
+                    </p>
+                </div>
+                <div class="col-lg-5 col-lg-offset-2 col-sm-6">
+                    <br><br><br>
+                    <img id="imagen_map" class="img-responsive" src="img/juego.png" alt="">
+                </div>
+            </div>
+
+        </div>
+        <!-- /.container -->
+
+    </div>
+    <!-- /.content-section-a -->
+    <hr>
+
+    <div class="content-section-a">
+
+        <div class="container">
+            <div class="row">
+                <div  id="container_game" class="col-lg-5 col-sm-6">
+                    <hr class="section-heading-spacer">
+                    <div class="clearfix"></div>
+                    
+                    <h2 id="titulo" class="section-heading">¡Empieza a jugar! </h2>   
+
+                    <div id="inicio_game">      
+                        <p>
+                            <select id="menu_juegos">
+                            <option selected="selected">Capitales</option>          
+                            <option>Estadios</option>
+                            <option>Monumentos</option>
+                            </select>
+                        </p>
+                        <br>   
+                        <p class='textos'>
+                           <label for="spinner">Dificultad (en segundos):</label>
+                           <input id="dificultad" name="value"><br>
+                               * 10 segundos por defecto
+                        </p>
+                        <br><br>
+                        <p>
+                            <button id="start_game" class="demoHeaders">Start Game</button>
+                        </p>
+                    </div>
+
+                    <div id="images">
+                    </div>
+
+                    <div id="punt_total">
+                        <p class="textos">Distancia entre los puntos: 
+                        <span id="result">0</span></p>
+                    </div>
+
+                    <div>    
+                        <button id="end_game" class="demoHeaders">End Game</button>
+                    </div>
+             
+                </div>
+                <div class="col-lg-5 col-lg-offset-2 col-sm-6">
+                   <div id="map"></div>
+                </div>
+            </div>
+
+        </div>
+       
+    </div>
+
+    <hr>
+
+    <div class="content-section-b">
+
+        <div class="container">
+            <div id="juegos_disp">
+                <h2>Juegos anteriores...</h2>
+                    <p class="lead">
+                        Elige uno de los juegos que hayas dejado pendiente,
+                        y vuelve a divertirte!
+                    </p>
+                    <select id="selectmenu">
+                    
+                    <option>Capitales, 12/02/2015, puntuacion: 919</option>
+                    <option>Estadios, 16/02/2015, puntuacion: 232</option>
+                    </select>
+            </div>
+        </div>
+    </div>
+    <!-- /.content-section-b -->
+
+    <hr>
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+
+                    <p class="copyright text-muted small">Copyright &copy; Cristian Mart&iacute;nez R. 2015.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+</body>
 </html>

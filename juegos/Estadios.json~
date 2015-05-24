@@ -9,7 +9,7 @@
 
 	{
 	 	"type": "Feature",
-		"geometry": {"coordinates": [40.41677, -3.70379]},
+		"geometry": {"coordinates": [41.375961, 2.11467]},
 		"properties": {"name": "Camp Nou"}
 	},
 	
@@ -32,7 +32,7 @@
 	},
 	{
 	 	"type": "Feature",
-		"geometry": {"coordinates": [51.49258, 37.6173]},
+		"geometry": {"coordinates": [51.49258, 7.451857]},
 		"properties": {"name": "Signal iduna park"}
 	}
 	]

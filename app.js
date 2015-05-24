@@ -73,7 +73,7 @@ function mostrarFoto(data) {
 	console.log(data.items.length);
 	foto = data.items[num_aleat];
 
-	$( "<img>" ).attr( "src", foto.media.m ).appendTo( "#images" );
+	$( "<img id='imagen_mostrada'>" ).attr( "src", foto.media.m ).appendTo( "#images" );
 }
 
 
@@ -154,7 +154,7 @@ function iniciarJuego(map, datos, dificultad) {
 	reset_stadistics();
 	elemento = elementoAleat(datos);
 	
-	$("#punt_total").html("<p>Distancia entre los puntos: "+
+	$("#punt_total").html("<p class='textos'>Distancia entre los puntos: "+
 		"<span id='result'>0</span></p>");
 
 	fotos = getFotos(elemento);
@@ -218,9 +218,11 @@ function endGame(map) {
 		puntuacion = 100000;
 	}
 	// mostrar numero de fotos
-	result = "<p><b>Fotos mostradas: </b>" + num_fotos + "<br>";
+	result = "<p class='textos'><b>Fotos mostradas: </b>" + num_fotos + "<br>";
 	result += "<b>Puntuacion total: </b>" + puntuacion.toFixed(2)+"</p>";
 	$("#punt_total").html(result);
+	$('#punt_total').css({'color': 'red'});
+
 
 	$("#titulo").text("¡Adivina dónde está!");
     $("#inicio_game").css({"visibility": "visible", "display": "inline"});
@@ -238,6 +240,7 @@ function setDificultad() {
 
 
 function startGame(map, name) {
+	$("#images").css({"display": "inline"});
 	nombre = $( "#menu_juegos option:selected" ).text();
 	datos = getDatos("juegos/" + nombre +".json");
 	$("#titulo").text(nombre);
@@ -248,6 +251,7 @@ function startGame(map, name) {
 
 
 $(document).ready(function(){
+
 
 	// Mapas //
 	var map = L.map('map').setView([28.92163, -2.3125], 1);
@@ -268,11 +272,11 @@ $(document).ready(function(){
 
     $("#end_game").click(function(){
     	$("#end_game").css({"visibility": "hidden"});
-    	$("#images").css({"visibility": "hidden"});  
+    	$("#images").css({"visibility": "hidden", "display":"none"});  
     	endGame(map);
     });
 
-	$( "#selectmenu" ).selectmenu({
+	$( "#selectmenu" ).menu({
   		position: { my : "left+10 center", at: "right center" }
 	});
 
