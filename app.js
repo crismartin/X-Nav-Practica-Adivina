@@ -102,6 +102,7 @@ var marker = undefined;
 var mostrar;
 var marker_sol = undefined;
 var dificultad = 10000;
+var nombre_juego;
 
 function penalizar() {
 	console.log("puntuacion: " + puntuacion);
@@ -194,14 +195,70 @@ function iniciarJuego(map, datos, dificultad) {
 
 
 
-
-
 function mostrarSolucion(map, coordenadas, name) {
 	marker_sol = L.marker(coordenadas, 
 		{color: 'red',
     	}).addTo(map);
 	marker_sol.bindPopup(name).openPopup();	
 }
+
+
+function getFecha(){
+	var f = new Date();
+	result = (f.getDate() + "/" + (f.getMonth() +1) + "/" + f.getFullYear());
+	hora = f.getHours();
+    minuto = f.getMinutes();
+    segundo = f.getSeconds();
+    horaImprimible = hora + " : " + minuto + " : " + segundo;
+
+    result = result + " - "+ horaImprimible;
+    return result;
+}
+
+
+function addHistorial(juego_name, puntuacion) {	
+	fecha = getFecha();
+
+
+	var estado = {juego_name: "nombre", puntuacion: "puntuacion", fecha: "fecha"};
+	link = juego_name, "?" + juego_name + "=" + puntuacion.toFixed(2) + "|" + fecha;
+	nombre = juego_name + " | " + puntuacion.toFixed(2) + " | " + fecha;
+	
+	addLink(link, nombre);
+	history.pushState(estado, link);
+}
+
+
+function addLink(link, nombre) {
+	enlace = "<a href = '" + link + "'>" + nombre + "</a>";
+	$("#history_menu").append('<li>'+ enlace +'</li>');
+}
+
+
+function supports_history_api() {
+  return !!(window.history && history.pushState);
+}
+
+
+window.onpopstate = function(event) {   
+	console.log(event.state);
+   setupPage(event.state);
+
+ }
+
+
+ function setupPage(page) {
+ 	console.log(page);
+	$("#history_menu").append('<li>'+ "algo muy especial" +'</li>');
+	longitud = history.length;
+	history.go(longitud);
+ }
+
+
+
+
+
+
 
 
 function endGame(map) {
@@ -217,6 +274,8 @@ function endGame(map) {
 	if(puntuacion === -7000 || puntuacion === 0){
 		puntuacion = 100000;
 	}
+
+	addHistorial(nombre_juego, puntuacion);
 	// mostrar numero de fotos
 	result = "<p class='textos'><b>Fotos mostradas: </b>" + num_fotos + "<br>";
 	result += "<b>Puntuacion total: </b>" + puntuacion.toFixed(2)+"</p>";
@@ -239,11 +298,11 @@ function setDificultad() {
 }
 
 
-function startGame(map, name) {
+function startGame(map) {
 	$("#images").css({"display": "inline"});
-	nombre = $( "#menu_juegos option:selected" ).text();
-	datos = getDatos("juegos/" + nombre +".json");
-	$("#titulo").text(nombre);
+	nombre_juego = $( "#menu_juegos option:selected" ).text();
+	datos = getDatos("juegos/" + nombre_juego +".json");
+	$("#titulo").text(nombre_juego);
 	dificultad = setDificultad();
     iniciarJuego(map, datos, dificultad);
     $("#inicio_game").css({"visibility": "collapse", "display":"none"});
@@ -266,7 +325,7 @@ $(document).ready(function(){
 	
 	
 	$("#start_game").click(function(){
-		startGame(map, juego_name);
+		startGame(map);
 	});
 	
 
@@ -280,7 +339,7 @@ $(document).ready(function(){
   		position: { my : "left+10 center", at: "right center" }
 	});
 
-	juego_name = $( "#menu_juegos" ).selectmenu({
+	$( "#menu_juegos" ).selectmenu({
   		position: { my : "left+10 center", at: "right center" },
   		width: "200px"
 	});
