@@ -17,7 +17,7 @@ function calcDistancia(lat1, lon1, lat2, lon2) {
 	var d = R * c;
 
 	// retorna 3 decimales
-	return d.toFixed(3);
+	return d.toFixed(2);
 }
 
 
@@ -79,7 +79,7 @@ function mostrarFoto(data) {
 
 function mostrarResult(pos_select, sitio) {
 	result = calcDistancia(pos_select.lat, pos_select.lng, sitio[0], sitio[1]);
-	$("#result").text(result);
+	$("#result").text(result + " metros");
 }
 
 
@@ -278,7 +278,7 @@ function endGame(map) {
 	addHistorial(nombre_juego, puntuacion);
 	// mostrar numero de fotos
 	result = "<p class='textos'><b>Fotos mostradas: </b>" + num_fotos + "<br>";
-	result += "<b>Puntuacion total: </b>" + puntuacion.toFixed(2)+"</p>";
+	result += "<b>Puntuacion total: </b>" + puntuacion.toFixed(2)+" puntos</p>";
 	$("#punt_total").html(result);
 	$('#punt_total').css({'color': 'red'});
 
