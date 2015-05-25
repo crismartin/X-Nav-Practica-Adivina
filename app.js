@@ -224,35 +224,14 @@ function addHistorial(juego_name, puntuacion) {
 	link = juego_name, "?" + juego_name + "=" + puntuacion.toFixed(2) + "|" + fecha;
 	nombre = juego_name + " | " + puntuacion.toFixed(2) + " | " + fecha;
 	
-	addLink(link, nombre);
+	addLink(nombre);
 	history.pushState(estado, link);
 }
 
 
-function addLink(link, nombre) {
-	enlace = "<a href = '" + link + "'>" + nombre + "</a>";
-	$("#history_menu").append('<li>'+ enlace +'</li>');
+function addLink(nombre) {
+	$("#history_menu").append('<li>' + nombre +'</li>');
 }
-
-
-function supports_history_api() {
-  return !!(window.history && history.pushState);
-}
-
-
-window.onpopstate = function(event) {   
-	console.log(event.state);
-   setupPage(event.state);
-
- }
-
-
- function setupPage(page) {
- 	console.log(page);
-	$("#history_menu").append('<li>'+ "algo muy especial" +'</li>');
-	longitud = history.length;
-	history.go(longitud);
- }
 
 
 
@@ -304,9 +283,12 @@ function startGame(map) {
 }
 
 
+
+
+
+
 $(document).ready(function(){
-
-
+	
 	// Mapas //
 	var map = L.map('map').setView([28.92163, -2.3125], 1);
 
@@ -343,4 +325,5 @@ $(document).ready(function(){
 
 	start_game = $("#start_game").button();
 	end_game = $("#end_game").button();
+
 });
