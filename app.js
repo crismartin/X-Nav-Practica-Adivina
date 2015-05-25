@@ -256,11 +256,6 @@ window.onpopstate = function(event) {
 
 
 
-
-
-
-
-
 function endGame(map) {
 
 	clearTimeout(mostrar);
@@ -341,7 +336,7 @@ $(document).ready(function(){
 
 	$( "#menu_juegos" ).selectmenu({
   		position: { my : "left+10 center", at: "right center" },
-  		width: "200px"
+  		width: "150px"
 	});
 
 	spinner = $("#dificultad").spinner({min:4});
