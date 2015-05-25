@@ -1,0 +1,12 @@
+{
+     "name": "Adivina donde esta",
+     "description": "Adivina donde esta en Firefox OS",
+     "launch_path": "/index.html",
+     "icons": {"128": "/flickr-icono-4672-128.png"},
+     "version": "1.0",
+     "developer": {
+          "name": "Cristian Martinez",
+          "url": "http://github.com/crismartin/X-Nav-Practica-Adivina"
+     },
+     "default_locale": "en"
+}
