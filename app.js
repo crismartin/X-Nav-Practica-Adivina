@@ -430,7 +430,6 @@ function finEdicion(map){
 	nombre_juego = $( "#menu_juegos option:selected" ).text();
 	localStorage[nombre_juego] = datos;
 	resetMarkers(map);	
-	map.off();
 }
 
 
