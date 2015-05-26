@@ -21,25 +21,49 @@ function calcDistancia(lat1, lon1, lat2, lon2) {
 }
 
 
-function getDatos(fichero) {
+
+function getDatos(nombre_fichero, features) {
 	var json = null;
+	var url = "juegos/" + nombre_fichero +".json";
+
+	//compruebo si esta en local el fichero json
+	json = localStorage.getItem(nombre_fichero);
+	try{
+		json = JSON.parse(json);
+		if(json !== null){
+			console.log("entro aqui");
+			return json.features;
+		}	
+	}catch(e){
+
+	}
 
 	json = $.ajax({
 	        'async': false,
 	        'global': false,
-	        'url': fichero,
+	        'url': url,
 	        'dataType': "json",
 	        'success': function (data) {
-	        	json = data;
-	        	//console.log(json);
+	        	json = data;	        	
 	        }
 	    });
 
 	if(json.status === 404){
+		console.log("no lo encuentra");
 		return null;
-	}else{
+	}else if(features === true){
+		console.log("devuelvo features");
+		aux = json.responseJSON;
+		localStorage.setItem(nombre_fichero, JSON.stringify(aux)); //guardo en local		
 		aux = json.responseJSON.features;
+		console.log(aux);
 		return aux;
+	}else{
+		console.log("devuelvo objeto entero");
+		aux = json.responseJSON;
+		localStorage.setItem(nombre_fichero, JSON.stringify(aux)); //guardo en local
+		console.log(aux);
+		return json.responseJSON;
 	}
 }
 
@@ -69,8 +93,7 @@ function getFotos(sitio) {
 
 
 function mostrarFoto(data) {
-	num_aleat =  getRandomInt(0, data.items.length);
-	console.log(data.items.length);
+	num_aleat =  getRandomInt(0, data.items.length);	
 	foto = data.items[num_aleat];
 
 	$( "<img id='imagen_mostrada'>" ).attr( "src", foto.media.m ).appendTo( "#images" );
@@ -103,6 +126,8 @@ var mostrar;
 var marker_sol = undefined;
 var dificultad = 10000;
 var nombre_juego;
+var modo_edicion = false;
+
 
 function penalizar() {
 	console.log("puntuacion: " + puntuacion);
@@ -135,10 +160,7 @@ function reset_stadistics(){
 }
 
 function resetMarkers(map) {
-	try{
-		console.log("borrando...");
-		console.log(marker);
-		console.log(marker_sol);
+	try{		
     	map.removeLayer(marker);
 		map.removeLayer(marker_sol);
     }catch(e){
@@ -163,6 +185,7 @@ function iniciarJuego(map, datos, dificultad) {
 	map.on('click', showPopUp);
 	penalizar();
 	resetMarkers();
+
    // me suscribo al evento
 	mostrar = setInterval(function() {
 		console.log("otra jugada");		
@@ -175,6 +198,8 @@ function iniciarJuego(map, datos, dificultad) {
 		penalizar();
 	}, dificultad);
 
+
+    // Muestra un marcador donde se clicka en el mapa
 	function showPopUp(e){     
 		resetMarkers(map);	
 		map.off('click');
@@ -189,8 +214,6 @@ function iniciarJuego(map, datos, dificultad) {
 
 		mostrarPuntuacion();
 	}
-
-    // Muestra un marcador donde se clicka en el mapa
 }
 
 
@@ -275,7 +298,10 @@ function setDificultad() {
 function startGame(map) {
 	$("#images").css({"display": "inline"});
 	nombre_juego = $( "#menu_juegos option:selected" ).text();
-	datos = getDatos("juegos/" + nombre_juego +".json");
+	datos = getDatos(nombre_juego, true);
+	console.log("datos");
+	console.log(datos);
+
 	$("#titulo").text(nombre_juego);
 	dificultad = setDificultad();
     iniciarJuego(map, datos, dificultad);
@@ -284,7 +310,136 @@ function startGame(map) {
 
 
 
+/*									
+----------------------------------
+		   * Opcion 2 *
+		Modo edicion de GeoJson
+----------------------------------
+*/
 
+function onOff(iniciar, nombre){
+
+	if(iniciar){
+		$("#titulo").text("Editando '"+ nombre + "'...");
+		$("#inicio_game").css({"visibility": "collapse", "display":"none"});
+		$("#punt_total").css({"visibility": "collapse", "display":"none"});
+		$("#fin_edicion").css({"visibility": "visible", "display":"inline"});
+		$("#area_edicion").css({"visibility": "visible", "display":"inline"});
+	}else{
+		$("#area_edicion").css({"visibility": "collapse", "display":"none"});
+		$("#fin_edicion").css({"visibility": "collapse", "display":"none"});
+		$("#titulo").text("¡Empieza a jugar!...");
+		$("#inicio_game").css({"visibility": "visible", "display":"inline"});
+		$("#punt_total").css({"visibility": "visible", "display":"inline"});
+		$("#modo_edicion").css({"visibility": "visible", "display":"inline"});
+	}
+}
+
+
+function decidirCiudad(objeto){
+	try{
+		ciudad = objeto.responseJSON.address.city;
+
+		if(ciudad === undefined){
+			ciudad = objeto.responseJSON.address.state;
+		}
+	}catch(e){
+		ciudad = "Oceano";
+	}
+
+	return ciudad;
+}
+
+
+function nameSitio(latitud, longitud){
+	ciudad = $.ajax({
+			async: false,
+			dataType: "json",
+			url: "http://nominatim.openstreetmap.org/reverse",
+			type: "get",
+			data: {format: "json", lat:latitud, lon:longitud},
+			'success': function (data) {
+	        		json = data;
+	        	}	        	
+	        });
+
+	if(ciudad.status === 404){
+		console.log("ciudad desconocida por Nomi");
+		return "Madrid";
+	
+	}else {
+		ciudad = decidirCiudad(ciudad);
+		console.log(ciudad);
+		return ciudad;
+	}
+}
+
+
+
+
+function editar(map) {		
+	nombre_juego = $( "#menu_juegos option:selected" ).text();
+	onOff(true, nombre_juego);
+
+	// busco el fichero
+	contenido = localStorage.getItem(nombre_juego);
+
+	if(contenido === null){
+		console.log("estoy en null");
+		cotenido = getDatos(nombre_juego, false);
+		contenido = localStorage.getItem(nombre_juego);		
+	}
+
+	area = $("#texto_edicion");
+	area.text(contenido);
+	
+	map.on('click', addFeatures);
+
+	function addFeatures(e){
+    	fichero = $("#texto_edicion").val();
+    	datos = $.parseJSON(fichero);    //objeto JSon
+		resetMarkers(map);		
+		marker = new L.marker(e.latlng, {draggable:true});
+		map.addLayer(marker);		
+		marker.bindPopup("Agregado. lat: "+ e.latlng.lat.toFixed(5) +
+						 ", long: " + e.latlng.lng.toFixed(5))
+				.openPopup();
+
+		ciudad = nameSitio(e.latlng.lat, e.latlng.lng);		
+		feature = crearFeature(e.latlng.lat, e.latlng.lng, ciudad);
+		console.log(datos);
+		datos.features.push(feature);
+		area.text(JSON.stringify(datos));
+	}	
+}
+
+function crearFeature(lat, lng, nombre){
+	coordenadas = [lat.toFixed(5), lng.toFixed(5)];
+	feature = {"type": "Feature",
+				"geometry": {"coordinates": coordenadas},
+				"properties": {"name": nombre}
+			};
+	return feature;		
+}
+
+
+function finEdicion(map){
+
+	onOff(false);
+	datos = $("#texto_edicion").val();
+	nombre_juego = $( "#menu_juegos option:selected" ).text();
+	localStorage[nombre_juego] = datos;
+	resetMarkers(map);	
+	map.off();
+}
+
+
+/*
+----------------------------------
+
+
+----------------------------------
+*/
 
 
 $(document).ready(function(){
@@ -300,30 +455,43 @@ $(document).ready(function(){
 		id: 'examples.map-i875mjb7'
 	}).addTo(map);
 	
-	
-	$("#start_game").click(function(){
+	start_game = $("#start_game").button();
+	end_game = $("#end_game").button();
+	edicion = $("#edicion").button();
+	fin_edit = $("#fin_edicion").button();
+
+	start_game.click(function(){
+		$("#modo_edicion").css({"visibility":"hidden", "display":"none"});
 		startGame(map);
 	});
 	
-
-    $("#end_game").click(function(){
+    end_game.click(function(){
     	$("#end_game").css({"visibility": "hidden"});
-    	$("#images").css({"visibility": "hidden", "display":"none"});  
+    	$("#images").css({"visibility": "hidden", "display":"none"}); 
+    	$("#modo_edicion").css({"visibility":"visible", "display":"inline"}); 
     	endGame(map);
     });
 
-	$( "#selectmenu" ).menu({
+
+	$("#selectmenu").menu({
   		position: { my : "left+10 center", at: "right center" }
 	});
 
-	$( "#menu_juegos" ).selectmenu({
+	$("#menu_juegos").selectmenu({
   		position: { my : "left+10 center", at: "right center" },
   		width: "150px"
 	});
 
 	spinner = $("#dificultad").spinner({min:4});
 
-	start_game = $("#start_game").button();
-	end_game = $("#end_game").button();
 
+	edicion.click(function(){
+		$("#modo_edicion").css({"visibility": "hidden", "display":"none"});
+		editar(map);
+	});
+
+	fin_edit.click(function(){
+		finEdicion(map);
+		console.log("finalizo edicion");
+	});
 });

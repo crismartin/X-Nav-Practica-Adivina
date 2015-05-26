@@ -28,6 +28,8 @@ h6 {
 .lead {
     font-size: 18px;
     font-weight: 400;
+    text-align: justify;
+    text-align: center;
 }
 
 .intro-header {

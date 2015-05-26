@@ -35,8 +35,8 @@
 }
 
 
-#end_game, #images{
-	visibility: hidden;
+#end_game, #images, #fin_edicion{
+	visibility: hidden;	
 }
 
 
@@ -46,6 +46,7 @@
 
 .textos{
 	font-size: 140%;
+	text-align: justify;
 }
 
 #dificultad, #start_game, #end_game{
@@ -78,7 +79,27 @@
 }
 
 
-#start_game, #end_game {
+#start_game, #end_game, #edicion {
     margin-left: 37.3%;
     margin-right: auto;
+}
+
+#area_edicion{
+	color: white;
+	font-size: 1.2em;
+	max-width: 100%;
+	margin-left: auto;
+	margin-right: auto;
+	visibility: hidden;
+	display: none;
+}
+
+textarea{
+
+	font-size: 1.2em;
+	max-width: 100%;
+	margin-left: auto;
+	margin-right: auto;
+
+	background-color: black;
 }

@@ -102,7 +102,10 @@
                         a la que se refiere dicha pista. ¡As&iacute; de sencillo!<br><br>
                         Elige entre las distintas variantes del juego (Capitales, Monumentos, etc).<br><br>
                         Recuerda: S&oacute;lo podr&aacute;s hacer un click por foto.<br><br>
-                        Mientras menos puntuaci&oacute;n final obtengas, mejor habr&aacute;s jugado.<br>
+                        Mientras menos puntuaci&oacute;n final obtengas, mejor habr&aacute;s jugado.<br><br>
+                        Personaliza tus propios juegos gracias al <b>"Modo edici&oacute;n"</b>.
+                        Pincha sobre el mapa o escribe las coordenadas de tus sitios preferidos.<br>
+
                     </p>
                 </div>
                 <div class="col-lg-5 col-lg-offset-2 col-sm-6">
@@ -126,10 +129,11 @@
                     <hr class="section-heading-spacer">
                     <div class="clearfix"></div>
                     
-                    <h2 id="titulo" class="section-heading">¡Empieza a jugar! </h2>   
+                    <h2 id="titulo" class="section-heading">¡Empieza a jugar!... </h2>   
 
                     <div id="inicio_game">      
                         <p>
+                            <span class="textos">Men&uacute; de juegos.</span><br>
                             <select id="menu_juegos">
                             <option selected="selected">Capitales</option>          
                             <option>Estadios</option>
@@ -159,7 +163,25 @@
                     <div>    
                         <button id="end_game" class="demoHeaders">End Game</button>
                     </div>
-             
+                    
+                    <div id="modo_edicion">
+                        <h2 id="titulo2" class="section-heading">... O personaliza los juegos</h2>
+                        <span class="textos">
+                            Selecciona del "Men&uacute; de juegos" el que quieres editar
+                            y clicka en el bot&oacute;n para empezar.<br><br>
+                            ¡Ten cuidado! Si la edici&oacute;n no se hace correctamente,
+                            no se guardar&aacute; y se usar&aacute; la determinada por el sistema.<br><br>
+                        </span>
+                        <button id="edicion" class="demoHeaders">Modo Edicion</button>
+                    </div>
+
+                    <div id="area_edicion">
+                        <textarea id="texto_edicion" rows='15' cols='60'>Hola mundo</textarea>
+                    </div>
+                    <div>
+                        <button id="fin_edicion" class="demoHeaders">Guardar y Salir</button>
+                    </div>        
+
                 </div>
                 <div class="mapa col-lg-5 col-lg-offset-2 col-sm-6">
                    <div id="map"></div>
