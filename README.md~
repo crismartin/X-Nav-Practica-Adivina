@@ -3,7 +3,7 @@
 Ejercicio de asignaturas de aplicaciones HTML5. Práctica final. Adivina dónde está.
 
 ## Mejoras
-* Diseño responsivo, se puede jugar tanto desde el Pc como en el móvil.
+* Diseño responsivo, se puede jugar tanto desde el pc como en el móvil.
 * Funciona como una Open Web App para Firefox OS.
 * Realizado "Modo edición de juego", el cual agrega puntos de juegos
   existentes escribiendo en un text-area o clickando sobre el mapa.

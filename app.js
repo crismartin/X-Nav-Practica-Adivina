@@ -434,10 +434,10 @@ function finEdicion(map){
 
 
 /*
-----------------------------------
+-------------------------------------
 
 
-----------------------------------
+-------------------------------------
 */
 
 
@@ -458,6 +458,7 @@ $(document).ready(function(){
 	end_game = $("#end_game").button();
 	edicion = $("#edicion").button();
 	fin_edit = $("#fin_edicion").button();
+
 
 	start_game.click(function(){
 		$("#modo_edicion").css({"visibility":"hidden", "display":"none"});
