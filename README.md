@@ -29,4 +29,6 @@ Funcionalidades opcionales:
   Si los datos al modificar no son válidos, es decir, no son un fichero
   con formato GeoJson, se usará el fichero del sistema por defecto.
 
-
+## Videos
+* Parte básica: http://youtu.be/8IEf-dtX6Ec
+* Parte opcional: http://youtu.be/YnAlfuWMffM
